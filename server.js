@@ -1,13 +1,17 @@
 // console.log('chao tui mat loln'
-var app = require("express")();
-var port = 8080;
+
+import express from "express"
+let app = express();
+let port = 8080;
 app.listen(port, (err) => {
-    if (err) {
-        console.log('dmm tui may');
-    } else {
-        console.log('ahihi')
-    }
+  if (err) {
+    console.log('dmm tui may');
+  } else {
+    console.log('ahihi')
+  }
 })
+
 app.get("/", (req, res) => {
-    res.json({ "mes": "dmmm" });
+  res.json({ "mes": "dmmm" });
 });
+///////////////////ahihihi
