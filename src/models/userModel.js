@@ -37,8 +37,18 @@ let userSchemal = new Schema({
   },
   deleteAt: {
     type: Number,
-    default: Date.now
+    default: null
   }
 
 });
+
+userSchemal.statics = {
+  createNew(item) {
+    return this.create(item)
+  },
+  findByEmail(email) {
+    return this.findOne({ "local.email": email }).exec();
+  }
+};
+
 module.exports = monogoose.model("user", userSchemal);
