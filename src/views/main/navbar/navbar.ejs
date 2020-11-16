@@ -63,8 +63,9 @@
                 </li>
                 <li class="dropdown" id="dropdown-navbar-user" data-uid="user._id">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <img class="avatar-small" src="/images/users//default-avatar-trungquandev-02.jpg" alt="">
-                        Trung Quân
+                        <img class="avatar-small" id="avatar-navbar-small" src="/images/users/<%= user.avatar %>"
+                            alt="">
+                        <span id="navUserName"><%= user.userName%></span>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
