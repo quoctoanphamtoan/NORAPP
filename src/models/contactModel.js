@@ -2,7 +2,7 @@ import monogoose from "mongoose";
 let Schema = monogoose.Schema;
 let contactSchemal = new Schema({
   userID: String,
-  contact: String,
+  contactID: String,
   status: { type: Boolean, default: false },
   createAt: {
     type: Number,
@@ -22,7 +22,17 @@ let contactSchemal = new Schema({
 contactSchemal.statics = {
   createNew(item) {
     return this.create(item)
+  },
+  //tim kiem item lien quan den
+  findAllByUser(userid) {
+    return this.find({
+      $or: [
+        { "userID": userid },
+        { "contactID": userid }
+      ]
+    });
   }
+
 };
 
 module.exports = monogoose.model("contact", contactSchemal);

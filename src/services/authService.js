@@ -1,9 +1,12 @@
 import userModel from "../models/userModel";
 import bcrypt from "bcrypt";
 import uuidv4 from "uuid/v4";
-import { transErrors, transSuccess } from "./../../lang/vi"
+import { transErrors, transSuccess, transMail } from "./../../lang/vi"
+import sendMail from "./../config/mailer";
 let saltRounds = 7;
-let register = (email, gender, password) => {
+
+
+let register = (email, gender, password, protocol, host) => {
   return new Promise(async (resolve, reject) => {
     let userByEmail = await userModel.findByEmail(email);
     if (userByEmail) {
@@ -26,12 +29,33 @@ let register = (email, gender, password) => {
       },
 
     };
-    let user = await userModel.create(userItem);
-    resolve(transSuccess.userCreated(user.local.email));
+    let user = await userModel.createNew(userItem);
+
+    let link = `${protocol}://${host}/verify/${user.local.verifyToken}`;
+
+    sendMail(email, transMail.subject, transMail.template(link))
+      .then(success => {
+        resolve(transSuccess.userCreated(user.local.email));
+      }).catch(async (err) => {
+        await userModel.removeByid(user._id);
+        console.log(err)
+        reject(transMail.sendFail);
+      });
+
   })
 
 };
 
+let verifyAccount = async (token) => {
+  return new Promise(async (resolve, reject) => {
+    await userModel.verify(token);
+    resolve(transSuccess.Acount_Active);
+  });
+}
+
+
 module.exports = {
-  register: register
+  register: register,
+  verifyAccount: verifyAccount
+
 };
