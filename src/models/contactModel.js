@@ -30,7 +30,33 @@ contactSchemal.statics = {
         { "userID": userid },
         { "contactID": userid }
       ]
-    });
+    }).exec();
+  },
+  checkExits(userid, contactid) {
+    return this.findOne({
+      $or: [
+        {
+          $and: [
+            { "userID": userid },
+            { "contactID": contactid }
+          ]
+        },
+        {
+          $and: [
+            { userid: "userID" },
+            { contactid: 'contactID' }
+          ]
+        }
+      ]
+    }).exec();
+  },
+  removeRequest(userid, contacid) {
+    return this.remove({
+      $and: [
+        { "userID": userid },
+        { "contactID": contacid }
+      ]
+    }).exec();
   }
 
 };

@@ -9,6 +9,7 @@ function callFindUsers(e) {
       $("#find-user ul").html(data);
       // console.log(data);
       addContact();//add contact
+      removeResquesContact();
     })
   }
 }
