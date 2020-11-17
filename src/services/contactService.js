@@ -12,28 +12,44 @@ let findUsersContactSV = (currentUserId, keyword) => {
     });
     deprecatedtUserIds = _.uniqBy(deprecatedtUserIds);
     let users = await userModel.findAllForAddContact(deprecatedtUserIds, keyword);
+    // console.log(users);
     resolve(users);
   });
 
 }
-// let addNews = async (currentUserId, contactId) => {
-//   return new Promise(async (resolve, reject) => {
-//     let contactExits = await contactModel.checkExists(currentUserId, contactId);
-//     if (contactExits) {
-//       return reject(false);
-//     }
-//     let newcontactItem = {
-//       userID: currentUserId,
-//       contactID: contactId
-//     };
-//     let newcontact = await contactModel.createNew(newcontactItem);
-//     resole(newcontact);
-//   })
+let addNewSV = (currentUserId, contactId) => {
+  return new Promise(async (resolve, reject) => {
+    let contactExist = await contactModel.checkExits(currentUserId, contactId);
+    if (contactExist) {
+      return reject(false);
+    }
+    let newContactItem = {
+      userID: currentUserId,
+      contactID: contactId
+    };
+    let newContact = await contactModel.createNew(newContactItem);
+    resolve(newContact)
+  })
 
 
-// }
+}
+let removeSV = (currentUserId, contactId) => {
+  return new Promise(async (resolve, reject) => {
+    let remove = await contactModel.removeRequest(currentUserId, contactId);
+    // console.log(remove.result);
+    if (remove.result.n == 0) {
+      return reject(false);
+    }
+    resolve(true);
+  })
+
+
+}
 module.exports = {
   findUsersContactSV: findUsersContactSV,
-  // addNews: addNews
+  addNewSV: addNewSV,
+  removeSV: removeSV
+  // addNews: addNews,
+
 
 }
