@@ -33,4 +33,7 @@ let configSession = (app) => {
     }
   }));
 };
-module.exports = configSession;
+module.exports = {
+  configSession: configSession,
+  sessionStore: sessionStore
+} 
