@@ -57,7 +57,71 @@ contactSchemal.statics = {
         { "contactID": contacid }
       ]
     }).exec();
-  }
+  },
+  getContact(userid, limit) {
+    return this.find({
+      $and: [
+        {
+          $or: [
+            { "userID": userid },
+            { "contactID": userid }
+          ]
+        },
+        { "status": true }
+      ]
+    }).sort({ "createAt": -1 }).limit(limit).exec();
+  },
+  contastSent(userid, limit) {
+    return this.find({
+      $and: [
+        { "userID": userid },
+        { "status": false }
+      ]
+    }).sort({ "createAt": -1 }).limit(limit).exec();
+  },
+  contastRecived(userid, limit) {
+    return this.find({
+      $and: [
+        { "contactID": userid },
+        { "status": false }
+      ]
+    }).sort({ "createAt": -1 }).limit(limit).exec();
+  },
+
+
+  countContast(userid) {
+    return this.count({
+      $and: [
+        {
+          $or: [
+            { "userID": userid },
+            { "contactID": userid }
+          ]
+        },
+        { "status": true }
+      ]
+    }).exec();
+  },
+  countContastSent(userid) {
+    return this.count({
+      $and: [
+        {
+          $or: [
+            { "userID": userid },
+          ]
+        },
+        { "status": false }
+      ]
+    }).exec();
+  },
+  countContastRecived(userid) {
+    return this.count({
+      $and: [
+        { "contactID": userid },
+        { "status": false }
+      ]
+    }).exec();
+  },
 
 };
 

@@ -39,7 +39,8 @@ let userSchemal = new Schema({
   deleteAt: {
     type: Number,
     default: null
-  }
+  },
+  isAdmin: { type: Boolean, default: false }
 
 });
 

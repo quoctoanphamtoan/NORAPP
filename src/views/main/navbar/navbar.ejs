@@ -33,7 +33,14 @@
                 <li>
                     <a href="#contactsModal" data-toggle="modal" title="Quản lý liên lạc" id="show-modal-contacts">
                         <i class="fa fa-user-plus"></i>
-                        <div class="noti_contact_counter"></div>
+                        <% if(countContastSent+countContastRecived>0){%>
+                        <div class="noti_contact_counter">
+                            <%= countContastSent+countContastRecived%>
+                        </div>
+                        <%}else{%>
+                        <div class="noti_contact_counter display-none"></div>
+                        <%} %>
+
                     </a>
                 </li>
                 <li>
@@ -44,12 +51,8 @@
                             <%= countNotifUnRead%>
                         </div>
                         <%}else{%>
-                        <div class="noti_counter display-none">
-
-                        </div>
-
+                        <div class="noti_counter display-none"></div>
                         <%} %>
-
                         <div id="noti_Container">
                             <div id="notifications">
                                 <a href="javascript:void(0)" id="popup-mark-notif-as-read">Đánh dấu tất cả đã đọc</a>
@@ -57,13 +60,6 @@
                                     <% notifycations.forEach(function(notifycation){ %>
                                     <%- notifycation %>
                                     <% });%>
-                                    <!-- <span data-uid="${ user.id }">
-                                        <img class="avatar-small" src="/images/users/default-avatar-trungquandev-01.jpg"
-                                            alt="">
-                                        <strong>Trung Quân</strong> đã chấp nhận lời mời kết bạn của bạn!
-                                    </span><br><br><br> -->
-
-
                                 </div>
                                 <div class="seeAll">
                                     <a href="#notifycationModal" data-toggle="modal">

@@ -55,12 +55,108 @@ let removeSV = (currentUserId, contactId) => {
   })
 
 
+
+}
+let getContact = (currentUserId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let contact = await contactModel.getContact(currentUserId, 10);
+      let users = contact.map(async (ct) => {
+        return await userModel.findUserById(ct.contactID);
+
+      });
+      resolve(await Promise.all(users));
+
+    } catch (error) {
+      reject(error)
+    }
+
+  });
+}
+let getcontastSent = (currentUserId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let contact = await contactModel.contastSent(currentUserId, 10);
+      let users = contact.map(async (ct) => {
+        return await userModel.findUserById(ct.contactID);
+
+      });
+      resolve(await Promise.all(users));
+
+
+    } catch (error) {
+      reject(error)
+    }
+
+  });
+}
+let getcontastRecived = (currentUserId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let contact = await contactModel.contastRecived(currentUserId, 10);
+      let users = contact.map(async (ct) => {
+        return await userModel.findUserById(ct.userID);
+
+      });
+      resolve(await Promise.all(users));
+
+
+    } catch (error) {
+      reject(error)
+    }
+
+  });
+};
+
+
+
+
+let countContast = (currentUserId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let count = await contactModel.countContast(currentUserId);
+      resolve(count);
+
+    } catch (error) {
+      reject(error)
+    }
+
+  });
+};
+let countContastSent = (currentUserId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let count = await contactModel.countContastSent(currentUserId);
+      resolve(count);
+
+    } catch (error) {
+      reject(error)
+    }
+
+  });
+};
+let countContastRecived = (currentUserId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let count = await contactModel.countContastRecived(currentUserId);
+      resolve(count);
+
+    } catch (error) {
+      reject(error)
+    }
+
+  });
 }
 module.exports = {
   findUsersContactSV: findUsersContactSV,
   addNewSV: addNewSV,
-  removeSV: removeSV
-  // addNews: addNews,
+  removeSV: removeSV,
+  getContact: getContact,
+  getcontastSent: getcontastSent,
+  getcontastRecived: getcontastRecived,
+  countContast: countContast,
+  countContastSent: countContastSent,
+  countContastRecived: countContastRecived
 
 
 }

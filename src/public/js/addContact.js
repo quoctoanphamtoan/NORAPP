@@ -19,6 +19,8 @@ function addContact() {
         $("#find-user").find(`div.user-remove-request-contact[data-uid=${tagetId}]`).css("display", "inline-block");
         //dong kb hien huy kb
         increaseNumberNotifyContact("count-request-contact-sent");
+        let userInfo = $("#find-user").find(`ul li[data-uid = ${tagetId}]`).get(0).outerHTML;
+        $("#request-contact-sent").find("ul").prepend(userInfo);
         socket.emit("add-new-contact", { contactId: tagetId });
       }
     })
@@ -31,7 +33,32 @@ socket.on("req-add-new-contact", function (user) {
             <strong>${user.userName}</strong> đã gửi cho bạn một lời mời kết bạn!
           </div>`;
   $(".noti_content").prepend(notif);
+  $("ul.list-notifycations").prepend(`<li>${notif}</li>`)
   increaseNumberNotifyContact("count-request-contact-received");
-  increaseNumberNoti("noti_contact_counter");
-  increaseNumberNoti("noti_counter");
+  increaseNumberNoti("noti_contact_counter", 1);
+  increaseNumberNoti("noti_counter", 1);
+  let userInfo = `<li class="_contactList" data-uid="${user.id}">
+                      <div class="contactPanel">
+                          <div class="user-avatar">
+                              <img src="/images/users/${user.avatar}" alt="">
+                          </div>
+                          <div class="user-name">
+                              <p>
+                              ${user.userName}
+                              </p>
+                          </div>
+                          <br>
+                          <div class="user-address">
+                              <span>&nbsp ${user.address}</span>
+                          </div>
+                          <div class="user-acccept-contact-received" data-uid="${user.id}">
+                              Chấp nhận
+                          </div>
+                          <div class="user-reject-request-contact-received action-danger"
+                              data-uid="${user.id}">
+                              Xóa yêu cầu
+                          </div>
+                      </div>
+                    </li>`;
+  $("#request-contact-received").find("ul").prepend(userInfo);
 });

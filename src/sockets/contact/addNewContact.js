@@ -15,6 +15,7 @@ let addNewContact = (io) => {
         id: socket.request.user._doc._id,
         userName: socket.request.user._doc.userName,
         avatar: socket.request.user._doc.avatar,
+        address: (socket.request.user.address !== null) ? socket.request.user.address : "",
       };
       //goit thong bao emit
       if (client[data.contactId]) {
