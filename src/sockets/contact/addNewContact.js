@@ -1,13 +1,10 @@
+import { pushSocketIdArray, emitNotifyToArray, removeSocketIdToArry } from "./../../helpers/socketHeplers";
+
+
 let addNewContact = (io) => {
   let client = {};
   io.on("connection", (socket) => {
-    let currentUserId = socket.request.user._doc._id;
-    if (client[currentUserId]) {
-      client[currentUserId].push(socket.id);
-    } else {
-      client[currentUserId] = [socket.id];
-
-    }
+    client = pushSocketIdArray(client, socket.request.user._doc._id, socket.id);
     // console.log(client);
     // console.log(socket.id);
     socket.on("add-new-contact", (data) => {
@@ -21,9 +18,7 @@ let addNewContact = (io) => {
       };
       //goit thong bao emit
       if (client[data.contactId]) {
-        client[data.contactId].forEach(socketid => {
-          io.sockets.connected[socketid].emit("req-add-new-contact", currentUser);
-        });
+        emitNotifyToArray(client, data.contactId, io, "req-add-new-contact", currentUser);
       }
       // io.sockets.emit("req-add-new-contact", currentUser);
 
@@ -31,13 +26,7 @@ let addNewContact = (io) => {
 
     //xu li f5;
     socket.on("disconnect", () => {
-      client[currentUserId] = client[currentUserId].filter((socketId) => {
-        return socketId !== socket.id;
-      });
-      if (!client[currentUserId].length) {
-        delete client[currentUserId];
-
-      }
+      client = removeSocketIdToArry(client, socket.request.user._doc._id, socket);
     })
     // console.log(client);
   })

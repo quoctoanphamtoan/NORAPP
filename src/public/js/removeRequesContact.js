@@ -19,11 +19,10 @@ function removeResquesContact() {
   });
 }
 socket.on("req-remove-request-contact", function (user) {
-  $(".noti_content").find(`span[data-uid=${user.id}]`).remove();
+  $(".noti_content").find(`div[data-uid=${user.id}]`).remove();
 
 
   decreaseNumberNotifyContact("count-request-contact-received");
   decreaseNumberNoti("noti_contact_counter");
-
   decreaseNumberNoti("noti_counter");
 });

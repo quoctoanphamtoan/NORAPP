@@ -2,10 +2,10 @@ function increaseNumberNotifyContact(className) {
   let currenValue = +$(`.${className}`).find("em").text();
   currenValue += 1;
   if (currenValue === 0) {
-    $(`.${className}`).html("0");
+    $(`.${className}`).html("");
 
   } else {
-    $(`.${className}`).html(`<em>${currenValue}</em>`)
+    $(`.${className}`).html(`<em>${currenValue}</em>`);
   }
 }
 function decreaseNumberNotifyContact(className) {
@@ -15,6 +15,6 @@ function decreaseNumberNotifyContact(className) {
     $(`.${className}`).html("");
 
   } else {
-    $(`.${className}`).html(`<em>${currenValue}</em>`)
+    $(`.${className}`).html(`(<em>${currenValue}</em>)`)
   }
 }
