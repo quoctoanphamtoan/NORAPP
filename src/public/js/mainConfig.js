@@ -81,7 +81,7 @@ function configNotification() {
     $('.noti_counter').fadeOut('slow');
     return false;
   });
-  $(document).click(function () {
+  $(".main-conten").click(function () {
     $('#notifications').fadeOut('fast', 'linear');
   });
 }

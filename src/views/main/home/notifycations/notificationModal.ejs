@@ -1,0 +1,22 @@
+<div class="modal fade" id="notifycationModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Tất cả thông báo.</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="list-notifycations">
+                    <% notifycations.forEach(function(notifycation){ %>
+
+                    <li>
+                        <%- notifycation %>
+                    </li>
+                    <% });%>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

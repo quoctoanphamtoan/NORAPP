@@ -1,5 +1,6 @@
 import contactModel from "./../models/contactModel";
 import userModel from "./../models/userModel";
+import notificationModel from "./../models/notificationModel"
 import _ from "lodash";
 let findUsersContactSV = (currentUserId, keyword) => {
   return new Promise(async (resolve, reject) => {
@@ -28,6 +29,13 @@ let addNewSV = (currentUserId, contactId) => {
       contactID: contactId
     };
     let newContact = await contactModel.createNew(newContactItem);
+    let notificationItem = {
+      senderId: currentUserId,
+      receiverId: contactId,
+      type: notificationModel.types.ADD_CONTACT,
+    }
+    await notificationModel.model.createNew(notificationItem);
+
     resolve(newContact)
   })
 
@@ -40,6 +48,9 @@ let removeSV = (currentUserId, contactId) => {
     if (remove.result.n == 0) {
       return reject(false);
     }
+    //noti
+    let notifTypeaddContact = notificationModel.types.ADD_CONTACT;
+    await notificationModel.model.removeRequestNotify(currentUserId, contactId, notifTypeaddContact);
     resolve(true);
   })
 

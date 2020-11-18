@@ -9,7 +9,7 @@ function increaseNumberNoti(className) {
   }
 }
 function decreaseNumberNoti(className) {
-  let currenValue = +$(`.${className}`).find("em").text();
+  let currenValue = +$(`.${className}`).text();
   currenValue -= 1;
   if (currenValue === 0) {
     $(`.${className}`).css("display", "none").html("");
