@@ -1,6 +1,6 @@
-function increaseNumberNoti(className) {
+function increaseNumberNoti(className, number) {
   let currenValue = +$(`.${className}`).text();
-  currenValue += 1;
+  currenValue += number;
   if (currenValue === 0) {
     $(`.${className}`).css("display", "none").html("");
 
@@ -8,9 +8,9 @@ function increaseNumberNoti(className) {
     $(`.${className}`).css("display", "block").html(currenValue)
   }
 }
-function decreaseNumberNoti(className) {
+function decreaseNumberNoti(className, number) {
   let currenValue = +$(`.${className}`).text();
-  currenValue -= 1;
+  currenValue -= number;
   if (currenValue === 0) {
     $(`.${className}`).css("display", "none").html("");
 

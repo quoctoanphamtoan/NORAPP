@@ -253,7 +253,6 @@ label:focus,
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   z-index: 999;
 }
-
 #popup-mark-notif-as-read {
   display: block;
   color: #333;
@@ -316,7 +315,6 @@ label:focus,
 .noti_content > div {
   max-width: 95%;
   margin: 5px 0px 0px 7px;
-
   color: #333;
   padding: 5px;
 }
@@ -1293,16 +1291,33 @@ label:focus,
 #noti_Button:hover {
   text-decoration: none;
 }
-.list-notifycations {
-  border-bottom: 1px solid #dfe6e9;
+
+.list-notifycations li {
   width: 90%;
   height: auto;
-  padding: 7px 0px 12px 5px;
+  padding: 7px 0px 0px 0px;
   margin: 0 auto;
   list-style-type: none;
 }
-
-.list-notifycations:hover {
+.list-notifycations li div {
+  width: 100%;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #dfe6e9;
+}
+.list-notifycations li div:hover {
   cursor: pointer;
   background-color: #eceff1;
+}
+
+.mark-notif-as-read {
+  float: right;
+  margin-right: 20px;
+}
+.read-more-notif {
+  text-align: center;
+}
+
+.display-important {
+  display: inline-block !important;
 }

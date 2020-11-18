@@ -1,3 +1,4 @@
+import { result } from "lodash";
 import notificationModel from "./../models/notificationModel";
 import userModel from "./../models/userModel";
 let getNotifycations = (currentUserId, limit = 10) => {
@@ -25,9 +26,21 @@ let countUnread = (currentUserId) => {
     }
   })
 };
+let markAllSV = (currentUserId, tagetUser) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await notificationModel.model.markAll(currentUserId, tagetUser);
+      resolve(true);
+    } catch (error) {
+      console.log(`Error when mark notifycations as read: ${error}`);
+      reject(false);
+    }
+  });
 
+}
 
 module.exports = {
   getNotifycations: getNotifycations,
-  countUnread: countUnread
+  countUnread: countUnread,
+  markAllSV: markAllSV
 }

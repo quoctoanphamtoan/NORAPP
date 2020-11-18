@@ -33,6 +33,15 @@ notificationSchema.statics = {
         { "isRead": false },
       ]
     }).exec();
+  },
+  markAll(userid, tagetUser) {
+    return this.updateMany({
+      $and: [
+        { "receiverId": userid },
+        { "senderId": { $in: tagetUser } }
+      ]
+    }, { "isRead": true }).exec();
+
   }
 }
 
@@ -49,14 +58,14 @@ const NOTIFICATION_CONTENS = {
         <img class="avatar-small" src="/images/users/${useravata}"
             alt="">
         <strong>${username}</strong> đã gửi cho bạn một lời mời kết bạn!
-      </ div>`
+      </div>`
 
       } else {
         return `<div class="" data-uid="${userid}">
         <img class="avatar-small" src="/images/users/${useravata}"
             alt="">
         <strong>${username}</strong> đã gửi cho bạn một lời mời kết bạn!
-      </ div>`
+      </div>`
 
       }
 
