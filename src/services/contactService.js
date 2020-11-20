@@ -45,7 +45,7 @@ let removeSV = (currentUserId, contactId) => {
   return new Promise(async (resolve, reject) => {
     let remove = await contactModel.removeRequest(currentUserId, contactId);
     // console.log(remove.result);
-    if (remove.result.n == 0) {
+    if (remove.result == 0) {
       return reject(false);
     }
     //noti
@@ -147,6 +147,45 @@ let countContastRecived = (currentUserId) => {
 
   });
 }
+let removeSvReceived = (currentUserId, contactId) => {
+  return new Promise(async (resolve, reject) => {
+    let remove = await contactModel.removeRequestReceived(currentUserId, contactId);
+    // console.log(remove.result);
+    if (remove.result == 0) {
+      return reject(false);
+    }
+    //noti
+    // let notifTypeaddContact = notificationModel.types.ADD_CONTACT;
+    // await notificationModel.model.removeRequestNotify(currentUserId, contactId, notifTypeaddContact);
+    resolve(true);
+  })
+
+
+
+}
+
+
+let approveSvReceived = (currentUserId, contactId) => {
+  return new Promise(async (resolve, reject) => {
+    let approve = await contactModel.approveRequestReceived(currentUserId, contactId);
+    // console.log(approve.result);
+    if (approve.result == 0) {
+      return reject(false);
+    }
+    let notificationItem = {
+      senderId: currentUserId,
+      receiverId: contactId,
+      type: notificationModel.types.APPROVE_CONTACT,
+    }
+    await notificationModel.model.createNew(notificationItem);
+    //noti
+    // let notifTypeaddContact = notificationModel.types.ADD_CONTACT;
+    // await notificationModel.model.approveRequestNotify(currentUserId, contactId, notifTypeaddContact);
+    resolve(true);
+  })
+
+
+}
 module.exports = {
   findUsersContactSV: findUsersContactSV,
   addNewSV: addNewSV,
@@ -156,7 +195,9 @@ module.exports = {
   getcontastRecived: getcontastRecived,
   countContast: countContast,
   countContastSent: countContastSent,
-  countContastRecived: countContastRecived
+  countContastRecived: countContastRecived,
+  removeSvReceived: removeSvReceived,
+  approveSvReceived: approveSvReceived
 
 
 }

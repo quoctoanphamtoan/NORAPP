@@ -47,6 +47,7 @@ notificationSchema.statics = {
 
 const NOTIFICATION_TYPES = {
   ADD_CONTACT: "add_contact",
+  APPROVE_CONTACT: "approve_contact"
 
 }
 const NOTIFICATION_CONTENS = {
@@ -79,3 +80,5 @@ module.exports = {
   types: NOTIFICATION_TYPES,
   conten: NOTIFICATION_CONTENS
 }
+
+//APPROVE_CONTACT
