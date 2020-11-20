@@ -19,8 +19,11 @@ function addContact() {
         $("#find-user").find(`div.user-remove-request-contact[data-uid=${tagetId}]`).css("display", "inline-block");
         //dong kb hien huy kb
         increaseNumberNotifyContact("count-request-contact-sent");
+
+        increaseNumberNoti("noti_contact_counter", 1);
         let userInfo = $("#find-user").find(`ul li[data-uid = ${tagetId}]`).get(0).outerHTML;
         $("#request-contact-sent").find("ul").prepend(userInfo);
+        removeResquesContact();
         socket.emit("add-new-contact", { contactId: tagetId });
       }
     })
@@ -37,7 +40,8 @@ socket.on("req-add-new-contact", function (user) {
   increaseNumberNotifyContact("count-request-contact-received");
   increaseNumberNoti("noti_contact_counter", 1);
   increaseNumberNoti("noti_counter", 1);
-  let userInfo = `<li class="_contactList" data-uid="${user.id}">
+  let userInfo = `
+                   <li class="_contactList" data-uid="${user.id}">
                       <div class="contactPanel">
                           <div class="user-avatar">
                               <img src="/images/users/${user.avatar}" alt="">
@@ -51,14 +55,16 @@ socket.on("req-add-new-contact", function (user) {
                           <div class="user-address">
                               <span>&nbsp ${user.address}</span>
                           </div>
-                          <div class="user-acccept-contact-received" data-uid="${user.id}">
+                          <div class="user-approve-request-contact-received" data-uid="${user.id}">
                               Chấp nhận
                           </div>
-                          <div class="user-reject-request-contact-received action-danger"
+                          <div class="user-remove-request-contact-received action-danger"
                               data-uid="${user.id}">
                               Xóa yêu cầu
                           </div>
                       </div>
-                    </li>`;
+                    </li>
+                    `;
   $("#request-contact-received").find("ul").prepend(userInfo);
+  removeResquesContactRecieved();
 });

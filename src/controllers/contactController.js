@@ -1,4 +1,4 @@
-import { findUsersContactSV, addNewSV, removeSV } from "./../services/contactService";
+import { findUsersContactSV, addNewSV, removeSV, removeSvReceived, approveSvReceived } from "./../services/contactService";
 
 let findUsersContact = async (req, res) => {
   try {
@@ -33,7 +33,7 @@ let addNew = async (req, res) => {
   }
 
 }
-let removeContactReques = async (req, res) => {
+let removeContactRequesSent = async (req, res) => {
   try {
 
     let currentUserId = req.user._id;
@@ -49,10 +49,44 @@ let removeContactReques = async (req, res) => {
   }
 
 }
+let removeContactRequesreceived = async (req, res) => {
+  try {
+
+    let currentUserId = req.user._id;
+    let contactID = req.body.uid;
+
+    let removeRequest = await removeSvReceived(currentUserId, contactID);
+    return res.status(200).send({
+      success: !!removeRequest
+    });
+
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+}
+
+let approveContactRequesreceived = async (req, res) => {
+  try {
+
+    let currentUserId = req.user._id;
+    let contactID = req.body.uid;
+
+    let approveRequest = await approveSvReceived(currentUserId, contactID);
+    return res.status(200).send({
+      success: !!approveRequest
+    });
+
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+}
+
 module.exports = {
   findUsersContact: findUsersContact,
   addNew: addNew,
-  removeContactReques: removeContactReques
+  removeContactRequesSent: removeContactRequesSent,
+  removeContactRequesreceived: removeContactRequesreceived,
+  approveContactRequesreceived: approveContactRequesreceived
 
 
 }

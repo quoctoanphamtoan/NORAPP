@@ -50,14 +50,40 @@ contactSchemal.statics = {
       ]
     }).exec();
   },
+  approveRequestReceived(userid, contacid) {
+    return this.update({
+      $and: [
+        { "contactID": userid },
+        { "userID": contacid },
+        { "status": false }
+      ]
+    },
+      { "status": true }
+    ).exec();
+  },
   removeRequest(userid, contacid) {
     return this.remove({
       $and: [
         { "userID": userid },
-        { "contactID": contacid }
+        { "contactID": contacid },
+        { "status": false }
       ]
     }).exec();
   },
+
+
+
+  removeRequestReceived(userid, contacid) {
+    return this.remove({
+      $and: [
+        { "contactID": userid },
+        { "userID": contacid },
+        { "status": false }
+      ]
+    }).exec();
+  },
+
+
   getContact(userid, limit) {
     return this.find({
       $and: [
@@ -90,7 +116,7 @@ contactSchemal.statics = {
 
 
   countContast(userid) {
-    return this.count({
+    return this.countDocuments({
       $and: [
         {
           $or: [
@@ -103,7 +129,7 @@ contactSchemal.statics = {
     }).exec();
   },
   countContastSent(userid) {
-    return this.count({
+    return this.countDocuments({
       $and: [
         {
           $or: [
@@ -115,7 +141,7 @@ contactSchemal.statics = {
     }).exec();
   },
   countContastRecived(userid) {
-    return this.count({
+    return this.countDocuments({
       $and: [
         { "contactID": userid },
         { "status": false }
