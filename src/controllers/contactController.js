@@ -1,4 +1,4 @@
-import { findUsersContactSV, addNewSV, removeSV, removeSvReceived, approveSvReceived } from "./../services/contactService";
+import { findUsersContactSV, addNewSV, removeSV, removeSvReceived, removeFriendSV, approveSvReceived } from "./../services/contactService";
 
 let findUsersContact = async (req, res) => {
   try {
@@ -39,7 +39,7 @@ let removeContactRequesSent = async (req, res) => {
     let currentUserId = req.user._id;
     let contactID = req.body.uid;
 
-    let removeRequest = await removeSV(currentUserId, contactID);
+    let removeRequest = await removeFriendSV(currentUserId, contactID);
     return res.status(200).send({
       success: !!removeRequest
     });
@@ -80,13 +80,29 @@ let approveContactRequesreceived = async (req, res) => {
     return res.status(500).send(error);
   }
 }
+let removeFriendController = async (req, res) => {
 
+  try {
+
+    let currentUserId = req.user._id;
+    let contactID = req.body.uid;
+
+    let removeFriend = await removeSV(currentUserId, contactID);
+    return res.status(200).send({
+      success: !!removeRequest
+    });
+
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+
+}
 module.exports = {
   findUsersContact: findUsersContact,
   addNew: addNew,
   removeContactRequesSent: removeContactRequesSent,
   removeContactRequesreceived: removeContactRequesreceived,
-  approveContactRequesreceived: approveContactRequesreceived
-
+  approveContactRequesreceived: approveContactRequesreceived,
+  removeFriendController: removeFriendController
 
 }

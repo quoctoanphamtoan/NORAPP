@@ -61,6 +61,27 @@ contactSchemal.statics = {
       { "status": true }
     ).exec();
   },
+  removeFriend(userid, contacid) {
+    return this.remove({
+      $or: [
+        {
+          $and: [
+            { "userID": userid },
+            { "contactID": contactid },
+            { "status": true }
+          ]
+        },
+        {
+          $and: [
+            { userid: "userID" },
+            { contactid: 'contactID' }
+          ]
+        }
+      ]
+    }).exec();
+
+  },
+
   removeRequest(userid, contacid) {
     return this.remove({
       $and: [

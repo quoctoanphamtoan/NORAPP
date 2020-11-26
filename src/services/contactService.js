@@ -186,6 +186,22 @@ let approveSvReceived = (currentUserId, contactId) => {
 
 
 }
+let removeFriendSV = (currentUserId, contactId) => {
+
+  return new Promise(async (resolve, reject) => {
+    let removeFriend = await contactModel.removeFriend(currentUserId, contactId);
+    // console.log(remove.result);
+    if (removeFriend.result == 0) {
+      return reject(false);
+    }
+    //noti
+    // let notifTypeaddContact = notificationModel.types.ADD_CONTACT;
+    // await notificationModel.model.removeRequestNotify(currentUserId, contactId, notifTypeaddContact);
+    resolve(true);
+  })
+
+
+}
 module.exports = {
   findUsersContactSV: findUsersContactSV,
   addNewSV: addNewSV,
@@ -197,7 +213,8 @@ module.exports = {
   countContastSent: countContastSent,
   countContastRecived: countContastRecived,
   removeSvReceived: removeSvReceived,
-  approveSvReceived: approveSvReceived
+  approveSvReceived: approveSvReceived,
+  removeFriendSV: removeFriendSV
 
 
 }

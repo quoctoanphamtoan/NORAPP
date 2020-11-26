@@ -2,7 +2,7 @@ import express from "express";
 import { getLoginRegister, postRegister, verifyAccount, getLogout, checkLoggedIn, checkLoggedOut } from "./../controllers/authController";
 import homeController from "./../controllers/homeController";
 import { updateAvatar, updateUserinFo, updatePasswords } from "./../controllers/userController";
-import { findUsersContact, addNew, removeContactRequesSent, removeContactRequesreceived, approveContactRequesreceived } from "./../controllers/contactController";
+import { findUsersContact, addNew, removeContactRequesSent, removeContactRequesreceived, removeFriendController, approveContactRequesreceived } from "./../controllers/contactController";
 import { markAllControler } from "./../controllers/notifycationController"
 import { auValid, userValid } from "../../src/validation/index";
 import { auth } from "../services";
@@ -31,7 +31,9 @@ let initRoutes = (app) => {
   router.delete("/contact/remove", checkLoggedIn, removeContactRequesSent);
   router.delete("/contact/remove-received", checkLoggedIn, removeContactRequesreceived);
   router.put("/contact/approve-received", checkLoggedIn, approveContactRequesreceived);
+  router.put("contact/remove-friend", checkLoggedIn, removeFriendController);
   router.put("/notifycation/mark-all", markAllControler);
+  ///contact/remove-friend
   return app.use("/", router);
 };
 module.exports = initRoutes;
