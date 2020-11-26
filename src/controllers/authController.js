@@ -1,6 +1,7 @@
 import { validationResult } from "express-validator/check"
 import { auth } from "./../services/index";
-import { transSuccess } from "./../../lang/vi"
+import { transSuccess } from "./../../lang/vi";
+import userModel from "./../models/userModel";
 let getLoginRegister = (req, res) => {
   return res.render("auth/master", {
     errors: req.flash("errors"),

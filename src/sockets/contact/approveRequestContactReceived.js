@@ -15,7 +15,7 @@ let approveResquesContactRecieved = (io) => {
         id: socket.request.user._doc._id,
         userName: socket.request.user._doc.userName,
         avatar: socket.request.user._doc.avatar,
-        address: (socket.request.user.address !== null) ? socket.request.user.address : "",
+        address: (socket.request.user._doc.address !== null) ? socket.request.user._doc.address : "",
       };
       //goit thong bao emit
       if (client[data.contactId]) {
