@@ -39,7 +39,7 @@ let removeContactRequesSent = async (req, res) => {
     let currentUserId = req.user._id;
     let contactID = req.body.uid;
 
-    let removeRequest = await removeFriendSV(currentUserId, contactID);
+    let removeRequest = await removeSV(currentUserId, contactID);
     return res.status(200).send({
       success: !!removeRequest
     });
@@ -87,7 +87,7 @@ let removeFriendController = async (req, res) => {
     let currentUserId = req.user._id;
     let contactID = req.body.uid;
 
-    let removeFriend = await removeSV(currentUserId, contactID);
+    let removeFriend = await removeFriendSV(currentUserId, contactID);
     return res.status(200).send({
       success: !!removeRequest
     });

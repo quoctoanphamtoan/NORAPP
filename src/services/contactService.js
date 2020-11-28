@@ -150,8 +150,8 @@ let countContastRecived = (currentUserId) => {
 let removeSvReceived = (currentUserId, contactId) => {
   return new Promise(async (resolve, reject) => {
     let remove = await contactModel.removeRequestReceived(currentUserId, contactId);
-    // console.log(remove.result);
-    if (remove.result == 0) {
+    console.log(remove.n);
+    if (remove.n === 0) {
       return reject(false);
     }
     //noti
@@ -169,7 +169,7 @@ let approveSvReceived = (currentUserId, contactId) => {
   return new Promise(async (resolve, reject) => {
     let approve = await contactModel.approveRequestReceived(currentUserId, contactId);
     // console.log(approve.result);
-    if (approve.result == 0) {
+    if (approve.n === 0) {
       return reject(false);
     }
     let notificationItem = {
@@ -190,8 +190,8 @@ let removeFriendSV = (currentUserId, contactId) => {
 
   return new Promise(async (resolve, reject) => {
     let removeFriend = await contactModel.removeFriend(currentUserId, contactId);
-    // console.log(remove.result);
-    if (removeFriend.result == 0) {
+    console.log(removeFriend);
+    if (removeFriend.n === 0) {
       return reject(false);
     }
     //noti
@@ -214,7 +214,8 @@ module.exports = {
   countContastRecived: countContastRecived,
   removeSvReceived: removeSvReceived,
   approveSvReceived: approveSvReceived,
-  removeFriendSV: removeFriendSV
+  removeFriendSV: removeFriendSV,
+  // removeFriend: removeFriend
 
 
 }

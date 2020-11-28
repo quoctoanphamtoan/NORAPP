@@ -17,19 +17,24 @@ let getHomeRegister = async (req, res) => {
   let countContastReciveds = await countContastRecived(req.user._id);
 
   let countNotifUnRead = await countUnread(req.user._id);
-  return res.render("main/home/home", {
-    errors: req.flash("errors"),
-    success: req.flash("success"),
-    user: req.user,
-    notifycations: notifycations,
-    countNotifUnRead: countNotifUnRead,
-    contast: contast,
-    contastSent: contastSent,
-    contastRecived: contastRecived,
-    countContast: countContact,
-    countContastSent: countContastSents,
-    countContastRecived: countContastReciveds
-  });
+  if (req.user.isAdmin) {
+    res.render("admin/master")
+  } else {
+
+    return res.render("main/home/home", {
+      errors: req.flash("errors"),
+      success: req.flash("success"),
+      user: req.user,
+      notifycations: notifycations,
+      countNotifUnRead: countNotifUnRead,
+      contast: contast,
+      contastSent: contastSent,
+      contastRecived: contastRecived,
+      countContast: countContact,
+      countContastSent: countContastSents,
+      countContastRecived: countContastReciveds
+    });
+  }
 }
 module.exports = getHomeRegister;
 

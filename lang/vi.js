@@ -32,6 +32,9 @@ export const transSuccess = {
   ,
   login_true: (username) => {
     return `Hế Lô ${username}`;
+  },
+  login_Admin: (username) => {
+    return `Chào admin ${username}`;
   }
 };
 export const transMail = {
