@@ -31,7 +31,7 @@ let initRoutes = (app) => {
   router.delete("/contact/remove", checkLoggedIn, removeContactRequesSent);
   router.delete("/contact/remove-received", checkLoggedIn, removeContactRequesreceived);
   router.put("/contact/approve-received", checkLoggedIn, approveContactRequesreceived);
-  router.put("contact/remove-friend", checkLoggedIn, removeFriendController);
+  router.delete("/contact/remove-friend", checkLoggedIn, removeFriendController);
   router.put("/notifycation/mark-all", markAllControler);
   ///contact/remove-friend
   return app.use("/", router);

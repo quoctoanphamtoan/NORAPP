@@ -4,18 +4,16 @@ function removeFriend() {
   $(".user-remove-contact").unbind("click").on("click", function () {
     let tagetId = $(this).data("uid");
     let userName = $(this).parent().find("div.user-name p").text();
-
     // console.log(tagetId)
-    // $("#contacts").find(`ul li[data-uid=${tagetId}]`).remove();
-    // decreaseNumberNotifyContact("count-contacts");
 
     Swal.fire({
-      title: `Bạn có muốn xóa thằng ${userName} khÔng?`,
-      text: "Bạn có muốn xóa thằng này không?",
+      title: `Bạn có chắc chắn muốn xóa ${userName} này`,
+      text: "Bạn có thể hoàn tác",
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#2ECC71",
-      confirmButtonText: "Xác nhận",
+      cancelButtonColor: "#ff7675",
+      cancelButtonText: "Xác nhận",
       cancelButtonText: "Hũy"
     }).then((result) => {
       if (!result.value) {
@@ -28,20 +26,30 @@ function removeFriend() {
         success: function (data) {
           if (data.success) {
             $("#contacts").find(`ul li[data-uid=${tagetId}]`).remove();
+
+            //count-contacts
             decreaseNumberNotifyContact("count-contacts");
+
+
+
             socket.emit("remove-friend", { contactId: tagetId });
           }
         }
 
 
       });
-    });
+
+    })
+
+
 
 
   });
 }
-socket.on("req-remove-received", function (user) {
+socket.on("req-remove-friend", function (user) {
   $("#contacts").find(`ul li[data-uid=${user.id}]`).remove();
+
+  //count-contacts
   decreaseNumberNotifyContact("count-contacts");
 });
 

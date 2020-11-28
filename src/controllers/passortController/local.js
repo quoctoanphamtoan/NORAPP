@@ -25,6 +25,9 @@ let initPassportLocal = () => {
       if (!checkpass) {
         return done(null, false, req.flash("errors", transErrors.login_false));
       }
+      if (user.isAdmin) {
+        return done(null, user, req.flash("success", transSuccess.login_true(user.userName)));
+      }
       return done(null, user, req.flash("success", transSuccess.login_true(user.userName)));
     } catch (error) {
       // return done(null, false, req.flash("errors", transErrors.login_false));
