@@ -18,9 +18,9 @@ let getHomeRegister = async (req, res) => {
 
   let countNotifUnRead = await countUnread(req.user._id);
   if (req.user.isAdmin) {
-    res.render("admin/master")
+    res.render("admin/master");
   } else {
-
+    console.log(contast)
     return res.render("main/home/home", {
       errors: req.flash("errors"),
       success: req.flash("success"),
@@ -32,7 +32,8 @@ let getHomeRegister = async (req, res) => {
       contastRecived: contastRecived,
       countContast: countContact,
       countContastSent: countContastSents,
-      countContastRecived: countContastReciveds
+      countContastRecived: countContastReciveds,
+
     });
   }
 }
