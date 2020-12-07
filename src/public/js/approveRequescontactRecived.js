@@ -23,6 +23,7 @@ function approveResquesContactRecieved() {
                                               </div>
           
           `);
+          console.log(tagetId)
           let userInfoHTML = userInfo.get(0).outerHTML;
           $("#contacts").find("ul").prepend(userInfoHTML);
           $(userInfo).remove();
