@@ -1,2 +1,0 @@
-# NORAPP
-NORAPP

@@ -19,10 +19,10 @@ body {
   text-rendering: optimizeLegibility;
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 400;
-  background-image: url("../images/background/BG.jpg");
+  background-image: url("../images/background/backg.jpg");
   background-size: cover;
   background-repeat: none;
-  color: #fff;
+  color: rgba(24, 23, 24, 0.667);
 }
 
 .container {
@@ -54,10 +54,14 @@ hr {
 .table a {
   color: #fff;
 }
+.my-table > tbody > tr {
+  background-color: #10ebc6;
+}
 
 .my-table > tbody > tr > td {
   border-top: 0px;
-  font-size: 15px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .bottom-description {

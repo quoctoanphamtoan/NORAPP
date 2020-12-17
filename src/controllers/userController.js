@@ -3,7 +3,8 @@ import { transErrors, transSuccess } from "./../../lang/vi";
 import uuidv4 from "uuid/v4";
 import { updateuser, updatePassWord } from "./../services/userService";
 import fsExtra, { symlink } from "fs-extra";
-import { validationResult } from "express-validator/check"
+import { validationResult } from "express-validator/check";
+import userModel from "./../models/userModel"
 
 let storageAvatar = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -43,7 +44,7 @@ let updateAvatar = (req, res) => {
       };
       let userUpdate = await updateuser(req.user._id, updateImgItem);
       //deleteavatarold
-      await fsExtra.remove(`src/public/images/users/${userUpdate.avatar}`);
+      // await fsExtra.remove(`src/public/images/users/${userUpdate.avatar}`);
       let result = {
         message: transSuccess.update_true,
         imgSrc: `/images/users/${req.file.filename}`
@@ -97,8 +98,42 @@ let updatePasswords = async (req, res) => {
 
 
 }
+
+let disConnectUser = async (req, res) => {
+  try {
+    let updateUserItem = req.params.id;
+    console.log(updateUserItem)
+    await userModel.updateIsActive(updateUserItem);
+    res.redirect('/');
+  } catch (error) {
+    return res.status(500).send(error)
+  }
+}
+
+let connectUser = async (req, res) => {
+  try {
+    let updateUserItem = req.params.id;
+    console.log(updateUserItem)
+    await userModel.connectActive(updateUserItem);
+
+    let result = {
+      message: transSuccess.Connect_Account,
+    };
+
+    res.redirect('/');
+    //return res.status(200).send(result);
+  } catch (error) {
+    return res.status(500).send(error)
+  }
+}
+// let getUser = ()=>{
+
+// }
 module.exports = {
   updateAvatar: updateAvatar,
   updateUserinFo: updateUserinFo,
-  updatePasswords: updatePasswords
+  updatePasswords: updatePasswords,
+  disConnectUser: disConnectUser,
+  connectUser: connectUser
+  // getUser:getUser
 }

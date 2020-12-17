@@ -12,6 +12,8 @@ let findUsersContactSV = (currentUserId, keyword) => {
 
     });
     deprecatedtUserIds = _.uniqBy(deprecatedtUserIds);
+    deprecatedtUserIds = deprecatedtUserIds.filter(userid => userid !== currentUserId);
+
     let users = await userModel.findAllForAddContact(deprecatedtUserIds, keyword);
     // console.log(users);
     resolve(users);
@@ -41,6 +43,11 @@ let addNewSV = (currentUserId, contactId) => {
 
 
 }
+
+let removeContact = (currentUserId, contactId) => {
+
+
+}
 let removeSV = (currentUserId, contactId) => {
   return new Promise(async (resolve, reject) => {
     let remove = await contactModel.removeRequest(currentUserId, contactId);
@@ -62,7 +69,12 @@ let getContact = (currentUserId) => {
     try {
       let contact = await contactModel.getContact(currentUserId, 10);
       let users = contact.map(async (ct) => {
+        if (ct.contactID == currentUserId) {
+          return await userModel.findUserById(ct.userID);
+
+        }
         return await userModel.findUserById(ct.contactID);
+
 
       });
       resolve(await Promise.all(users));
@@ -190,7 +202,7 @@ let removeFriendSV = (currentUserId, contactId) => {
 
   return new Promise(async (resolve, reject) => {
     let removeFriend = await contactModel.removeFriend(currentUserId, contactId);
-    console.log(removeFriend);
+    // console.log(removeFriend);
     if (removeFriend.n === 0) {
       return reject(false);
     }
@@ -202,9 +214,26 @@ let removeFriendSV = (currentUserId, contactId) => {
 
 
 }
+let findFriendsContactSV = (currentUserId, keyword) => {
+  return new Promise(async (resolve, reject) => {
+    let friendIds = [];
+    let friends = await contactModel.getFriends(currentUserId);
+    friends.forEach((item) => {
+      friendIds.push(item.userID);
+      friendIds.push(item.contactID);
+    });
+    friendIds = _.uniq(friendIds);
+    friendIds = friendIds.filter(userid => userid != currentUserId);
+
+    let users = await userModel.findAllToAddGroupChat(friendIds, keyword);
+    resolve(users);
+  });
+
+}
 module.exports = {
   findUsersContactSV: findUsersContactSV,
   addNewSV: addNewSV,
+  removeContact: removeContact,
   removeSV: removeSV,
   getContact: getContact,
   getcontastSent: getcontastSent,
@@ -215,6 +244,7 @@ module.exports = {
   removeSvReceived: removeSvReceived,
   approveSvReceived: approveSvReceived,
   removeFriendSV: removeFriendSV,
+  findFriendsContactSV: findFriendsContactSV
   // removeFriend: removeFriend
 
 

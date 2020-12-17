@@ -1,6 +1,7 @@
 import passport, { use } from "passport";
 import passportLocal from "passport-local";
 import userModel from "./../../models/userModel";
+import chatGroupModel from "./../../models/chatGroupModel"
 import { transErrors, transSuccess } from "./../../../lang/vi"
 import { check } from "express-validator/check";
 let LocalStratery = passportLocal.Strategy;
@@ -43,16 +44,20 @@ let initPassportLocal = () => {
   });
 
 
-  passport.deserializeUser((id, done) => {
-    userModel.findUserById(id).then(
-      user => {
-        return done(null, user)
-      }
-    ).catch(err => {
-      return done(err, null);
+  passport.deserializeUser(async (id, done) => {
+    try {
+      let user = await userModel.findUserBySecsionlocalId(id);
 
-    });
+      let getChatGroupIds = await chatGroupModel.getChatGroupIdsByUser(user._id);
+      user = user.toObject();
+      user.chatGroupIds = getChatGroupIds;
+
+      return done(null, user)
+    } catch (error) {
+      return done(error, null);
+    }
   })
 };
+
 
 module.exports = initPassportLocal;

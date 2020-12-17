@@ -12,7 +12,7 @@ let updatePassWord = (id, dataupdate) => {
       return reject(transErrors.account_undefine);
     }
     let checkcurrenpassword = await currentUser.comparepassword(dataupdate.passwordOld);
-    console.log(dataupdate);
+    // console.log(dataupdate);
     if (!checkcurrenpassword) {
       return reject(transErrors.pass_fail);
     }
@@ -23,8 +23,18 @@ let updatePassWord = (id, dataupdate) => {
 
   });
 }
+let getUser = () => {
 
+  return new Promise(async (resolve, reject) => {
+    let users = await UserModel.getUser();
+    // console.log(users);
+    resolve(users);
+  });
+
+
+}
 module.exports = {
   updateuser: updateuser,
-  updatePassWord: updatePassWord
+  updatePassWord: updatePassWord,
+  getUser: getUser
 }

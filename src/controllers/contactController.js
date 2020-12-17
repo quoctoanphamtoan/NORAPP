@@ -1,4 +1,4 @@
-import { findUsersContactSV, addNewSV, removeSV, removeSvReceived, removeFriendSV, approveSvReceived } from "./../services/contactService";
+import { findUsersContactSV, addNewSV, removeSV, removeSvReceived, removeFriendSV, approveSvReceived, findFriendsContactSV } from "./../services/contactService";
 
 let findUsersContact = async (req, res) => {
   try {
@@ -33,6 +33,23 @@ let addNew = async (req, res) => {
   }
 
 }
+
+// let removeContact = async(req,res) => {
+
+//   try {
+
+//     let currentUserId = req.user._id;
+//     let contactID = req.body.uid;
+
+//     let removeContact = await removeContact(currentUserId, contactID);
+//     return res.status(200).send({
+//       success: !!removeContact
+//     });
+
+//   } catch (error) {
+//     return res.status(500).send(error);
+//   }
+// };
 let removeContactRequesSent = async (req, res) => {
   try {
 
@@ -89,7 +106,7 @@ let removeFriendController = async (req, res) => {
 
     let removeFriend = await removeFriendSV(currentUserId, contactID);
     return res.status(200).send({
-      success: !!removeRequest
+      success: !!removeFriend
     });
 
   } catch (error) {
@@ -97,12 +114,30 @@ let removeFriendController = async (req, res) => {
   }
 
 }
+let findFriendContact = async (req, res) => {
+
+  try {
+    let currentUserId = req.user._id;
+    let keyword = req.params.keyword;
+
+    let Users = await findFriendsContactSV(currentUserId, keyword);
+
+    // console.log(Users);
+    return res.render("main/groupChat/section/_findFriendsContact", { Users });
+
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+}
 module.exports = {
   findUsersContact: findUsersContact,
   addNew: addNew,
+  //removeContact: removeContact,
   removeContactRequesSent: removeContactRequesSent,
   removeContactRequesreceived: removeContactRequesreceived,
   approveContactRequesreceived: approveContactRequesreceived,
-  removeFriendController: removeFriendController
+  removeFriendController: removeFriendController,
+  findFriendContact: findFriendContact,
+
 
 }

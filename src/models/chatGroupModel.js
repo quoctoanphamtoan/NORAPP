@@ -2,11 +2,11 @@ import monogoose from "mongoose";
 let Schema = monogoose.Schema;
 let chatGroupSchemal = new Schema({
   name: String,
-  userAmount: { type: Number, min: 3, max: 100 },
+  userAmount: { type: Number, min: 2, max: 100 },
   messagerAmount: { type: Number, default: 0 },
   userID: String,
   members: [
-    { UserID: String },
+    { userID: String },
 
   ],
   createAt: {
@@ -19,31 +19,34 @@ let chatGroupSchemal = new Schema({
   },
   deleteAt: {
     type: Number,
-    default: Date.now
+    default: null
   }
 
+
 });
-module.exports = monogoose.model("messager", messagerSchemal); import monogoose from "mongoose";
-let Schema = monogoose.Schema;
-let messagerSchemal = new Schema({
-
-  text: String,
-  file: {
-    data: Buffer, contentType: String, fileName: String
+chatGroupSchemal.statics = {
+  createNew(item) {
+    return this.create(item)
   },
-
-  createAt: {
-    type: Number,
-    default: Date.now
+  getChatGroups(userId, limit) {
+    return this.find({
+      "members": { $elemMatch: { "userID": userId } }
+    }).sort({ "updateAt": -1 }).limit(limit).exec();
   },
-  updateAt: {
-    type: Number,
-    default: Date.now
+  getChatGroupById(id) {
+    return this.findById(id);
   },
-  deleteAt: {
-    type: Number,
-    default: Date.now
+  updateWhenHasNewMessage(id, newMessageAmount) {
+    return this.findByIdAndUpdate(id, {
+      "messagerAmount": newMessageAmount,
+      "updateAt": Date.now()
+    }).exec();
+  },
+  getChatGroupIdsByUser(userId) {
+    return this.find({
+      "members": { $elemMatch: { "userID": userId } }
+    }, { _id: 1 }).exec();
   }
 
-});
-module.exports = monogoose.model("chatGroup", chatGroupSchemal);
+}
+module.exports = monogoose.model("chat-groups", chatGroupSchemal); 

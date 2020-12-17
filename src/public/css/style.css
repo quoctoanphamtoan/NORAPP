@@ -223,7 +223,7 @@ label:focus,
   font-size: 13px;
   border-color: #2acc77;
   background-color: #2acc77;
-  color: #fff;
+  color: #800a0a;
   fill: #fff;
   margin: 10px 0px 5px 2px;
 }
@@ -410,7 +410,7 @@ label:focus,
   background-color: #eceff1;
 }
 
-.list-attachs li {
+.list-attachments li {
   border-bottom: 1px solid #dfe6e9;
   width: 90%;
   height: auto;
@@ -419,7 +419,7 @@ label:focus,
   list-style-type: none;
 }
 
-.list-attachs li:hover {
+.list-attachments li:hover {
   cursor: pointer;
   background-color: #eceff1;
 }
@@ -670,13 +670,13 @@ label:focus,
 }
 
 .left a.create-group-chat {
-  display: none;
+  display: block;
   float: left;
   width: 40px;
   height: 40px;
   margin-left: 10px;
-  border: 1px solid #2ecc71;
-  background-color: #2ecc71;
+  border: 1px solid #2eccb7;
+  background-color: #2eccb7;
   background-image: url("../images/icons/name-type.png");
   background-repeat: no-repeat;
   background-position: top 11px left 12.5px;
@@ -810,7 +810,7 @@ label:focus,
   width: 100%;
   height: 80%;
   padding: 15px 29px;
-  background-color: #fff;
+  background-color: #656060;
 }
 
 .right .chat {
@@ -830,9 +830,12 @@ label:focus,
   flex-direction: column;
 }
 
-#image-chat,
-#attach-chat {
-  display: none;
+.image-chat {
+  display: none !important;
+}
+
+.attachment-chat {
+  display: none !important;
 }
 
 .room-chat:hover,
@@ -888,11 +891,11 @@ label:focus,
   }
 }
 
-.bubble-attach-file {
+.bubble-attachment-file {
   background-color: #ecf0fe !important;
 }
 
-.bubble-attach-file:before {
+.bubble-attachment-file:before {
   background-color: #ecf0fe !important;
 }
 
@@ -1101,7 +1104,12 @@ label:focus,
 .right .bubble.you img {
   float: left;
 }
-
+.right .bubble.me img.avatar-small {
+  margin-left: 10px;
+}
+.right .bubble.you img.avatar-small {
+  margin-right: 10px;
+}
 .right .bubble.me a {
   float: left;
   border-bottom: 1.5px solid #c8d6e5;
@@ -1162,7 +1170,7 @@ label:focus,
 }
 
 .form-search-to-add {
-  border: solid 1px #ccc;
+  border: solid 1px #fff;
   border-radius: 5px;
   margin-bottom: 10px;
 }
@@ -1252,8 +1260,8 @@ label:focus,
 }
 
 .list-user-added button#create-group-chat {
-  border-color: #2acc77;
-  background-color: #2acc77;
+  border-color: #0db8b8;
+  background-color: #2ac1cc;
 }
 
 .list-user-added button#cancel-group-chat {
@@ -1320,4 +1328,17 @@ label:focus,
 
 .display-important {
   display: inline-block !important;
+}
+
+#screen-chat {
+  width: 100%;
+  height: 100%;
+}
+.show-number-messages,
+.show-number-members {
+  color: #2c3e59 !important;
+}
+.message-time-realtime {
+  color: #e74c3c !important;
+  font-weight: bold;
 }

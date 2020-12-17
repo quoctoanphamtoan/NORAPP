@@ -15,20 +15,54 @@ function flashMasterNotify() {
     alertify.notify(notify, "success", 7);
   }
 }
+function bufferTobase64(buffer) {
+  return btoa(
+    new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), "")
+  );
+}
 
-function nineScrollRight() {
-  $('.right .chat').niceScroll({
+function changeTypeChat() {
+  $("#select-type-chat").bind("change", function () {
+    let optionSelected = $("option:selected", this);
+    optionSelected.tab("show");
+    if ($(this).val() === "user-chat") {
+      $(".create-group-chat").hide();
+    }
+    else {
+      $(".create-group-chat").show();
+    }
+  });
+}
+function changeScreenChat() {
+  $(".room-chat").unbind("click").on("click", function () {
+
+    let divId = $(this).find("li").data("chat");
+    $(".person").removeClass("active");
+    $(`.preson[data-chat=${divId}]`).addClass("active");
+    $(this).tab("show");
+
+    nineScrollRight(divId);
+    enableEmojioneArea(divId);
+
+    imageChat(divId);
+    attachmentChat(divId);
+    videoChat(divId);
+
+  });
+}
+function nineScrollRight(divId) {
+  $(`.right .chat[data-chat=${divId}]`).niceScroll({
     smoothscroll: true,
     horizrailenabled: false,
     cursorcolor: '#ECECEC',
     cursorwidth: '7px',
     scrollspeed: 50
   });
-  $('.right .chat').scrollTop($('.right .chat')[0].scrollHeight);
+  $(`.right .chat[data-chat=${divId}]`).scrollTop($(`.right .chat[data-chat=${divId}]`)[0].scrollHeight);
 }
 
-function enableEmojioneArea(chatId) {
-  $('.write-chat[data-chat="' + chatId + '"]').emojioneArea({
+function enableEmojioneArea(divId) {
+  $(`#write-chat-${divId}`).emojioneArea({
     standalone: false,
     pickerPosition: 'top',
     filtersPosition: 'bottom',
@@ -40,7 +74,15 @@ function enableEmojioneArea(chatId) {
     shortnames: false,
     events: {
       keyup: function (editor, event) {
-        $('.write-chat').val(this.getText());
+        $(`#write-chat-${divId}`).val(this.getText());
+      },
+      click: function () {
+        typingOn(divId);
+        textAndEmojiChat(divId);
+
+      },
+      blur: function () {
+        typingOff(divId);
       }
     },
   });
@@ -108,44 +150,9 @@ function gridPhotos(layoutNumber) {
   });
 }
 
-function showButtonGroupChat() {
-  $('#select-type-chat').bind('change', function () {
-    if ($(this).val() === 'group-chat') {
-      $('.create-group-chat').show();
-      // Do something...
-    } else {
-      $('.create-group-chat').hide();
-    }
-  });
-}
 
-function addFriendsToGroup() {
-  $('ul#group-chat-friends').find('div.add-user').bind('click', function () {
-    let uid = $(this).data('uid');
-    $(this).remove();
-    let html = $('ul#group-chat-friends').find('div[data-uid=' + uid + ']').html();
 
-    let promise = new Promise(function (resolve, reject) {
-      $('ul#friends-added').append(html);
-      $('#groupChatModal .list-user-added').show();
-      resolve(true);
-    });
-    promise.then(function (success) {
-      $('ul#group-chat-friends').find('div[data-uid=' + uid + ']').remove();
-    });
-  });
-}
 
-function cancelCreateGroup() {
-  $('#cancel-group-chat').bind('click', function () {
-    $('#groupChatModal .list-user-added').hide();
-    if ($('ul#friends-added>li').length) {
-      $('ul#friends-added>li').each(function (index) {
-        $(this).remove();
-      });
-    }
-  });
-}
 
 $(document).ready(function () {
   // Hide số thông báo trên đầu icon mở modal contact
@@ -156,25 +163,31 @@ $(document).ready(function () {
 
   // Cấu hình thanh cuộn
   nineScrollLeft();
-  nineScrollRight();
+  // nineScrollRight();
 
-  // Bật emoji, tham số truyền vào là id của box nhập nội dung tin nhắn
-  enableEmojioneArea("17071995");
 
   // Icon loading khi chạy ajax
   ajaxLoading();
 
   // Hiển thị button mở modal tạo nhóm trò chuyện
-  showButtonGroupChat();
+  // showButtonGroupChat();
 
   // Hiển thị hình ảnh grid slide trong modal tất cả ảnh, tham số truyền vào là số ảnh được hiển thị trên 1 hàng.
   // Tham số chỉ được phép trong khoảng từ 1 đến 5
   gridPhotos(5);
 
   // Thêm người dùng vào danh sách liệt kê trước khi tạo nhóm trò chuyện
-  addFriendsToGroup();
 
-  // Action hủy việc tạo nhóm trò chuyện
-  cancelCreateGroup();
   flashMasterNotify();
+
+  // thay doi kieu tro chuyen
+  changeTypeChat();
+  //thaydoimanhinhchat
+  changeScreenChat();
+
+  $("ul.people").find("a")[0].click();
+  $("#video-chat-group").bind("click", function () {
+    alertify.notify("Sẽ cập nhật ở phiên bản tới", "info", 7);
+  })
+
 });

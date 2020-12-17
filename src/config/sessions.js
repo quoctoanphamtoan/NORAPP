@@ -13,6 +13,8 @@ let MongoStore = connectMongo(Session);
 
 let sessionStore = new MongoStore({
   url: `mongodb://localhost:27017/NORAPP`,
+  // url: `mongodb://zalozalo:963852741@cluster0-shard-00-00.tnqmv.mongodb.net:27017,cluster0-shard-00-01.tnqmv.mongodb.net:27017,cluster0-shard-00-02.tnqmv.mongodb.net:27017/thanh?ssl=true&replicaSet=atlas-wynrxu-shard-0&authSource=admin&retryWrites=true&w=majority`,
+
   autoReconnect: true,
   // autoRemove: "native"
 

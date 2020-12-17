@@ -10,11 +10,11 @@ let contactSchemal = new Schema({
   },
   updateAt: {
     type: Number,
-    default: Date.now
+    default: null
   },
   deleteAt: {
     type: Number,
-    default: Date.now
+    default: null
   }
 
 });
@@ -43,8 +43,8 @@ contactSchemal.statics = {
         },
         {
           $and: [
-            { userid: "userID" },
-            { contactid: 'contactID' }
+            { "userID": contactid },
+            { "contactID": userid }
           ]
         }
       ]
@@ -58,9 +58,13 @@ contactSchemal.statics = {
         { "status": false }
       ]
     },
-      { "status": true }
+      {
+        "status": true,
+        "updateAt": Date.now()
+      }
     ).exec();
   },
+
   removeFriend(userid, contactid) {
     return this.remove({
       $or: [
@@ -73,11 +77,13 @@ contactSchemal.statics = {
         },
         {
           $and: [
-            { userid: "userID" },
-            { contactid: 'contactID' }
+            { "userID": contactid },
+            { "contactID": userid },
+            { "status": true }
           ]
         }
       ]
+
     }).exec();
 
   },
@@ -116,7 +122,7 @@ contactSchemal.statics = {
         },
         { "status": true }
       ]
-    }).sort({ "createAt": -1 }).limit(limit).exec();
+    }).sort({ "updateAt": -1 }).limit(limit).exec();
   },
   contastSent(userid, limit) {
     return this.find({
@@ -168,6 +174,39 @@ contactSchemal.statics = {
         { "status": false }
       ]
     }).exec();
+  },
+  updateWhenHasNewMessage(userid, contactid) {
+    return this.update({
+      $or: [
+        {
+          $and: [
+            { "userID": userid },
+            { "contactID": contactid }
+          ]
+        },
+        {
+          $and: [
+            { "userID": contactid },
+            { "contactID": userid }
+          ]
+        }
+      ]
+    }, {
+      "updateAt": Date.now()
+    }).exec();
+  },
+  getFriends(userid) {
+    return this.find({
+      $and: [
+        {
+          $or: [
+            { "userID": userid },
+            { "contactID": userid }
+          ]
+        },
+        { "status": true }
+      ]
+    }).sort({ "updateAt": -1 }).exec();
   },
 
 };

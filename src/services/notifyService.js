@@ -5,10 +5,11 @@ let getNotifycations = (currentUserId, limit = 10) => {
   return new Promise(async (resolve, reject) => {
     try {
       let notifycations = await notificationModel.model.getByUserIdAndLimit(currentUserId, limit);
-      // console.log(notifycations);
+      console.log(notifycations);
       let getNotifContents = notifycations.map(async (noti) => {
-        let sender = await userModel.findUserById(noti._doc.senderId);
-        return notificationModel.conten.getContent(noti._doc.type, noti._doc.isRead, sender._id, sender.userName, sender.avatar);
+        let sender = await userModel.findUserById(noti.senderId);
+        console.log(sender)
+        return notificationModel.conten.getContent(noti.type, noti.isRead, sender._id, sender.userName, sender.avatar);
       });
       resolve(await Promise.all(getNotifContents));
     } catch (error) {

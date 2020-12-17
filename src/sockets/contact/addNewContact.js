@@ -4,7 +4,9 @@ import { pushSocketIdArray, emitNotifyToArray, removeSocketIdToArry } from "./..
 let addNewContact = (io) => {
   let client = {};
   io.on("connection", (socket) => {
-    client = pushSocketIdArray(client, socket.request.user._doc._id, socket.id);
+    // console.log("socket.request.user._id")
+    // console.log(socket.request.user._id)
+    client = pushSocketIdArray(client, socket.request.user._id, socket.id);
     // console.log(client);
     // console.log(socket.id);
     socket.on("add-new-contact", (data) => {
@@ -12,10 +14,10 @@ let addNewContact = (io) => {
       // console.log(data);
       // console.log(socket.request.user)
       let currentUser = {
-        id: socket.request.user._doc._id,
-        userName: socket.request.user._doc.userName,
-        avatar: socket.request.user._doc.avatar,
-        address: (socket.request.user.address !== null) ? socket.request.user.address : "",
+        id: socket.request.user._id,
+        userName: socket.request.user.userName,
+        avatar: socket.request.user.avatar,
+        address: socket.request.user.address == "",
       };
       //goit thong bao emit
       if (client[data.contactId]) {
@@ -27,7 +29,7 @@ let addNewContact = (io) => {
 
     //xu li f5;
     socket.on("disconnect", () => {
-      client = removeSocketIdToArry(client, socket.request.user._doc._id, socket);
+      client = removeSocketIdToArry(client, socket.request.user._id, socket);
     })
     // console.log(client);
   })

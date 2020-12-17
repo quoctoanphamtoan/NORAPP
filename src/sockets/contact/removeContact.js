@@ -3,14 +3,14 @@ let removeContact = (io) => {
   let client = {};
   io.on("connection", (socket) => {
 
-    client = pushSocketIdArray(client, socket.request.user._doc._id, socket.id);
+    client = pushSocketIdArray(client, socket.request.user._id, socket.id);
     // console.log(client);
     // console.log(socket.id);
     socket.on("remove-friend", (data) => {
       // console.log(data);
       // console.log(socket.request.user)
       let currentUser = {
-        id: socket.request.user._doc._id,
+        id: socket.request.user._id,
       };
       //goit thong bao emit
       if (client[data.contactId]) {
@@ -22,7 +22,7 @@ let removeContact = (io) => {
 
     //xu li f5;
     socket.on("disconnect", () => {
-      client = removeSocketIdToArry(client, socket.request.user._doc._id, socket);
+      client = removeSocketIdToArry(client, socket.request.user._id, socket);
     })
     // console.log(client);
   })

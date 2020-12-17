@@ -22,8 +22,9 @@ const mongooes = require("mongoose");
 // const config = require("config");
 // const db = config.get("mongoURI");
 
-const url = "mongodb+srv://zalozalo:963852741@cluster0.tnqmv.mongodb.net/muoidiemmuoi?retryWrites=true&w=majority";
-
+const url = `mongodb://localhost:27017/NORAPP`
+// const url = "mongodb+srv://zalozalo:963852741@cluster0.tnqmv.mongodb.net/thanh?retryWrites=true&w=majority";
+// const url = "mongodb://zalozalo:963852741@cluster0-shard-00-00.tnqmv.mongodb.net:27017,cluster0-shard-00-01.tnqmv.mongodb.net:27017,cluster0-shard-00-02.tnqmv.mongodb.net:27017/thanh?ssl=true&replicaSet=atlas-wynrxu-shard-0&authSource=admin&retryWrites=true&w=majority"
 const connectDB = async () => {
   try {
     await mongooes.connect(url, {

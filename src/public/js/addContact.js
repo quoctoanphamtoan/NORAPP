@@ -20,7 +20,7 @@ function addContact() {
         //dong kb hien huy kb
         increaseNumberNotifyContact("count-request-contact-sent");
 
-        increaseNumberNoti("noti_contact_counter", 1);
+        increaseNumberNoti("noti_contact_counter", 1); //js/caculateNotifi
         let userInfo = $("#find-user").find(`ul li[data-uid = ${tagetId}]`).get(0).outerHTML;
         $("#request-contact-sent").find("ul").prepend(userInfo);
         removeResquesContact();
@@ -53,7 +53,7 @@ socket.on("req-add-new-contact", function (user) {
                           </div>
                           <br>
                           <div class="user-address">
-                              <span>&nbsp ${user.address}</span>
+                              <span></span>
                           </div>
                           <div class="user-approve-request-contact-received" data-uid="${user.id}">
                               Chấp nhận
@@ -67,4 +67,5 @@ socket.on("req-add-new-contact", function (user) {
                     `;
   $("#request-contact-received").find("ul").prepend(userInfo);
   removeResquesContactRecieved();
+  approveResquesContactRecieved();
 });

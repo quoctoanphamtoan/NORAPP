@@ -51,6 +51,10 @@ userSchemal.statics = {
   findByEmail(email) {
     return this.findOne({ "local.email": email }).exec();
   },
+  getUser() {
+    return this.find().exec();
+  }
+  ,
   removeByid(id) {
     return this.findByIdAndRemove(id).exec();
   },
@@ -71,6 +75,32 @@ userSchemal.statics = {
   findUserById(id) {
     return this.findById(id).exec();
   },
+  findUserBySecsionlocalId(id) {
+    return this.findById(id, { "local.password": 0 }).exec();
+  },
+  getNormalUserDataById(id) {
+    return this.findById(id, { _id: 1, userName: 1, address: 1, avatar: 1 }).exec();
+  },
+
+  updateIsActive(id) {
+    return this.findOneAndUpdate(
+      {
+        "_id": id
+      },
+      {
+        "local.isActive": false
+      }).exec();
+  },
+
+  connectActive(id) {
+    return this.findOneAndUpdate(
+      {
+        "_id": id
+      },
+      {
+        "local.isActive": true
+      }).exec();
+  },
   updateUser(id, item) {
     return this.findByIdAndUpdate(id, item).exec();
   },
@@ -85,14 +115,31 @@ userSchemal.statics = {
         { "local.isActive": true },
         {
           $or: [
-            { "userName": { "$regex": keyword } },
-            { "local.email": { "$regex": keyword } },
+            { "userName": { "$regex": new RegExp(keyword, "i") } },
+            { "local.email": { "$regex": new RegExp(keyword, "i") } },
+          ]
+        }
+      ]
+    }, { _id: 1, userName: 1, address: 1, avatar: 1 }).exec();
+
+  },
+  findAllToAddGroupChat(friendIds, keyword) {
+    return this.find({
+      $and: [
+        { "_id": { $in: friendIds } },
+        { "local.isActive": true },
+        {
+          $or: [
+            { "userName": { "$regex": new RegExp(keyword, "i") } },
+            { "local.email": { "$regex": new RegExp(keyword, "i") } },
           ]
         }
       ]
     }, { _id: 1, userName: 1, address: 1, avatar: 1 }).exec();
 
   }
+  ,
+
 
 };
 
