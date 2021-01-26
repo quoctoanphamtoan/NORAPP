@@ -1,7 +1,7 @@
 import nodeMailer from "nodemailer";
 
-let adminEmail = "xudubicu@gmail.com";
-let adminpass = "toilatoi123";
+let adminEmail = "borntoshinelightaking@gmail.com";
+let adminpass = "vuong12321";
 let mailport = "465";
 let mailhost = 'smtp.gmail.com';
 let sendMail = (to, subject, htmlContent) => {

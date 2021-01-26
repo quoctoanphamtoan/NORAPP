@@ -15,8 +15,5 @@ let addNewGroupChat = async (req, res) => {
   }
 }
 module.exports = {
-
   addNewGroupChat: addNewGroupChat,
-
-
 }

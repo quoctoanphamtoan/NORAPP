@@ -4,15 +4,11 @@ import { getContact, getcontastSent, getcontastRecived, countContast, countConta
 import { getUser } from "./../services/userService"
 import { bufferToBase64, lastItemOfArray, convertTimeStampToFriend } from "./../helpers/clientHelper";
 //getUser
-
-
 let getHomeRegister = async (req, res) => {
   let notifycations = await getNotifycations(req.user._id);
   let contast = await getContact(req.user._id);
   let contastSent = await getcontastSent(req.user._id);
-
   let contastRecived = await getcontastRecived(req.user._id);
-
   let getALLConversationItem = await getALLConversationItems(req.user._id);
   let allConversations = getALLConversationItem.allConversations;
   let userConversations = getALLConversationItem.userConversations;
@@ -22,9 +18,6 @@ let getHomeRegister = async (req, res) => {
 
 
   let getuser = await getUser();
-
-
-
   let countContact = await countContast(req.user._id);
   let countContastSents = await countContastSent(req.user._id);
   let countContastReciveds = await countContastRecived(req.user._id);
@@ -32,11 +25,9 @@ let getHomeRegister = async (req, res) => {
   let countNotifUnRead = await countUnread(req.user._id);
   if (req.user.isAdmin) {
     res.render("admin/master", {
-
       errors: req.flash("errors"),
       success: req.flash("success"),
       getuser: getuser
-
     })
 
   } else {
@@ -60,7 +51,6 @@ let getHomeRegister = async (req, res) => {
       groupConversations: groupConversations,
       allConversationWithMessages: allConversationWithMessages,
       bufferToBase64: bufferToBase64,
-      // getALLConversationItem: getALLConversationItem
       lastItemOfArray: lastItemOfArray,
       convertTimeStampToFriend: convertTimeStampToFriend
 
